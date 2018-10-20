@@ -1,0 +1,7 @@
+{
+  "passPerPreset": true,
+  "plugins": [
+    "transform-runtime",
+    "syntax-dynamic-import"
+  ]
+}

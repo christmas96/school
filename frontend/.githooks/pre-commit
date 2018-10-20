@@ -1,0 +1,54 @@
+#!/bin/sh
+
+RED='\033[1;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+echo "\n\nPrettier:"
+
+jsfiles=$(git diff --cached --name-only --diff-filter=ACM "*.json" "*.js" "*.jsx" "*.ts" "*.tsx" | tr '\n' ' ')
+[ -z "$jsfiles" ] && exit 0
+
+# Prettify all staged .js files
+echo "$jsfiles\n" | xargs ./node_modules/.bin/prettier --write
+
+# Add back the modified/prettified files to staging
+echo "$jsfiles" | xargs git add
+
+printf "${GREEN}Prettier passed.${NC}"
+
+echo "\n\nLinter:"
+
+# Run tslint and get the output and return code
+result=$(npm run lint)
+ret_code=$?
+
+# printf "\nReturn code ${ret_code}\n\n"
+
+# If it didn't pass, announce it failed and print the output
+if [ $ret_code != 0 ]; then
+	printf "\n${RED}Linter failed:${NC}"
+	echo "$result\n"
+	exit 1
+fi
+
+printf "${GREEN}Linter passed.${NC}"
+
+echo "\n\nCompiler:"
+
+# Run tsc and get the output and return code
+result=$(npm run compile)
+ret_code=$?
+
+# printf "\nReturn code ${ret_code}\n\n"
+
+# If it didn't pass, announce it failed and print the output
+if [ $ret_code != 0 ]; then
+	printf "\n${RED}Compiler failed:${NC}"
+	echo "$result\n"
+	exit 1
+fi
+
+printf "${GREEN}Compiler passed.${NC}\n\n\n"
+
+exit 0

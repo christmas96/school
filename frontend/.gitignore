@@ -1,0 +1,19 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+/.awcache
+/.history
+
+# build
+/build
+
+# dependencies
+/node_modules
+
+# misc
+.env
+.idea
+.DS_Store
+
+.history
+
+
