@@ -5,6 +5,7 @@
 make docker-build
 make docker-run
 
+
 ### Creating an admin user (Execute only once)
 python3 manage.py migrate
 python3 manage.py createsuperuser

@@ -1,0 +1,23 @@
+version: '3'
+services:
+  dev:
+    volumes:
+      - ../:/opt/svc_school
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    links:
+      - postgres.docker
+    ports:
+        - "8080:8080"
+    expose:
+        - "8080"  
+
+  postgres.docker:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test_db
+      
