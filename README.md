@@ -1,7 +1,7 @@
 ## svc_school
 
 ### Start server
-### The commands below have to be run in school folder
+### The commands below have to be run in `school` folder
 make docker-build <br />
 make docker-run <br />
 
