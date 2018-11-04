@@ -30,12 +30,13 @@ SECRET_KEY = 'go3_$&#2qxroby=2!3(+@s5cnbs2&%v8=wd3bgdu&5vxk4&)7y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'school',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
