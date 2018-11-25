@@ -1,3 +1,13 @@
+# School application written in Python Django/React.js
+
+### Run app
+To run the application you should got to outer school folder and write in your terminal:
+> pythoon manage.py runserver   
+
+After that you can access admin page where you can directly manage all models.
+
+
+
 ## svc_school
 
 ### Start server
