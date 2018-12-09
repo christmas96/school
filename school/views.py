@@ -1,8 +1,10 @@
 from django.shortcuts import render
+import jwt,json
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -34,8 +36,7 @@ class UserProfile():
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
-            # Redirect to a success page.
-            return HttpResponse(status=200)
+            return JsonResponse({'email':email}, status = 200)
         else:
             # Return an 'invalid login' error message.
             return HttpResponse(status=404)
