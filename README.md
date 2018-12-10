@@ -16,7 +16,7 @@ make docker-build <br />
 make docker-run <br />
 
 ### Creating an admin user (Execute only once)
-Before running commands below, rename **db.sqlite3.dev** to **db.sqlite3** to set up your local db
+If needed, copy **db.sqlite3.dev** and rename it to **db.sqlite3**
 
 python3 manage.py makemigrations school<br />
 python3 manage.py migrate<br />
