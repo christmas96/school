@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Calendar } from 'Screen/Calendar';
+
+import { Router } from 'Application/Router';
 
 export const Application: React.SFC = () => {
-  return <Calendar culture={'uk'}/>
+  return <Router/>
 };

@@ -2,7 +2,6 @@
   "buildOnSave": true,
   "compileOnSave": true,
   "compilerOptions": {
-    "rootDir": "./",
     "baseUrl": ".",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

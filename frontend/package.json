@@ -18,7 +18,6 @@
     "react-router-dom": "4.2.2",
     "react-switch": "^3.0.4",
     "react-transition-group": "2.4.0",
-    "wheel-indicator": "1.2.0",
     "moment": "2.22.2"
   },
   "scripts": {
