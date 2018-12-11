@@ -1,5 +1,7 @@
 from django.urls import path, include
 from django.contrib import admin
+from django.urls import path
+from django.contrib import admin
 from . import views
 from . import teacher
 
@@ -10,5 +12,7 @@ urlpatterns = [
     path('user/schedule', views.UserProfile.get_user_schedule, name='get_user_schedule'),
     path('teacher/subjects', teacher.TeacherProfile.get_subjects, name='get_teacher_all_subjects'),
     path('teacher/groups', teacher.TeacherProfile.get_groups, name='get_teacher_all_groups'),
-    path('admin/', admin.site.urls)
+    path('user/profile', views.check_role, name='check_role'),
+    path('admin/', admin.site.urls),
 ]
+
