@@ -44,7 +44,7 @@ class UserProfile():
                                  last_name=last_name)
         user = authenticate(request, username=email, password=password)
         login(request, user)
-        return HttpResponse(status=200)
+        return JsonResponse({'email': email}, status=200)
 
 
     @csrf_exempt
