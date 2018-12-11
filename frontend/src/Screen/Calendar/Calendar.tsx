@@ -11,7 +11,7 @@ require('moment/locale/uk');
 const globalizeLocalizer = localizer(moment);
 
 interface IProps {
-
+  match: any;
 }
 
 interface IState {
