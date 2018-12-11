@@ -60,7 +60,7 @@ coverage.xml
 docs/_build/
 
 # Python interpreter
-# venv
+venv
 
 # Sqlite
 db.sqlite3
