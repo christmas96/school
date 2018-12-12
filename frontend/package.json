@@ -2,7 +2,7 @@
   "name": "@christmas96/school",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/src/index.js",
+  "main": "build/src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/christmas96/school"
@@ -30,7 +30,7 @@
     "compile": "./node_modules/typescript/bin/tsc -p ./ --skipLibCheck --noEmit",
     "init": "git config core.hooksPath .githooks",
     "lint": "tslint -p ./ \"src/**/*.ts*\"",
-    "start": "NODE_ENV=development webpack-dev-server --config ./.webpack/webpack.config.dev.js --profile --colors",
+    "start": "rm -rf ./build && NODE_ENV=development webpack-dev-server --config ./.webpack/webpack.config.dev.js --profile --colors",
     "test": "react-scripts-ts test --env=jsdom"
   },
   "devDependencies": {
@@ -39,7 +39,7 @@
     "@types/react": "16.7.6",
     "@types/react-big-calendar": "0.20.0",
     "@types/react-dom": "16.0.9",
-    "@types/react-redux": "^6.0.11",
+    "@types/react-redux": "6.0.11",
     "@types/react-router": "4.0.31",
     "@types/react-router-dom": "4.2.7",
     "@types/redux": "^3.6.0",
