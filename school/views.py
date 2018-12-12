@@ -29,7 +29,8 @@ def check_role(request):
         # user with specified email not found
         return HttpResponse(status=404)
 
-def my_custom_sql(user_id, start_date, end_date):
+
+def get_user_schedule(user_id, start_date, end_date):
     with connection.cursor() as cursor:
         cursor.execute("select school_subject.name, school_group.name, school_diary.mark, school_hometask.description, "
                        "school_lessondata.room, school_lessontime.begin, school_lessontime.end, school_lesson.date "
@@ -41,10 +42,11 @@ def my_custom_sql(user_id, start_date, end_date):
                        "inner join school_subject on school_subject.id = school_lessondata.subject_id "
                        "left join school_hometask on school_hometask.group_id = school_group.id "
                        "left join school_diary on school_diary.lesson_id = school_lesson.id "
-                       "WHERE school_pupil.id = 1 AND school_lesson.date between  '2014-01-01' AND '2019-12-31';")
-        row = cursor.fetchone()
+                       "WHERE school_pupil.id = " + user_id + " AND school_lesson.date between  '" + start_date + "' AND '" + end_date + "'"
+                       "ORDER BY school_lesson.date, school_lessontime.number")
+        a = cursor.fetchall()
 
-    return row
+    return a
 
 class UserProfile():
     @csrf_exempt
@@ -75,11 +77,12 @@ class UserProfile():
 
     @csrf_exempt
     def get_user_schedule(request):
-        user_id = request.POST['userId']
-        start_date = request.POST['startDate']
-        end_date = request.POST['endDate']
-        my_custom_sql(user_id, start_date, end_date)
-        return JsonResponse({'email':'kek'}, status = 200)
+        user_id = request.GET['userId']
+        start_date = request.GET['startDate']
+        end_date = request.GET['endDate']
+        result = get_user_schedule(user_id, start_date, end_date)
+        #return JsonResponse(result, status = 200)
+        return JsonResponse("Test! fix me please", status = 200, safe=False)
 
     @csrf_exempt
     def logoutUser(request):
