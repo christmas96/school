@@ -59,4 +59,8 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# Python interpreter
 venv
+
+# Sqlite
+db.sqlite3

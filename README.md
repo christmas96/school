@@ -16,7 +16,9 @@ make docker-build <br />
 make docker-run <br />
 
 ### Creating an admin user (Execute only once)
-python3 manage.py makemigrations school
+If needed, copy **db.sqlite3.dev** and rename it to **db.sqlite3**
+
+python3 manage.py makemigrations school<br />
 python3 manage.py migrate<br />
 python3 manage.py createsuperuser<br />
 

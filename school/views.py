@@ -1,19 +1,33 @@
 from django.db import connection
 from django.shortcuts import render
-import jwt,json
+import json
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from school.models import *
 
 
 # Create your views here.
 
-
 def index(request):
     return HttpResponse("Hey it's school app")
 
+def check_role(request):
+    user_mail = request.GET['email']
+    user_obj = User.objects.filter(email=user_mail).exists()
+
+    employee_role = Employee.objects.filter(user=user_obj).exists()
+    pupil_role = Pupil.objects.filter(user=user_obj).exists()
+
+    if employee_role:
+        return JsonResponse({'email':user_mail, 'permission':"admin"}, status=200)
+    elif pupil_role:
+        return JsonResponse({'email':user_mail, 'permission':"pupil"}, status=200)
+    else:
+        # user with specified email not found
+        return HttpResponse(status=404)
 
 def my_custom_sql(user_id, start_date, end_date):
     with connection.cursor() as cursor:
@@ -44,7 +58,7 @@ class UserProfile():
                                  last_name=last_name)
         user = authenticate(request, username=email, password=password)
         login(request, user)
-        return HttpResponse(status=200)
+        return JsonResponse({'email': email}, status=200)
 
 
     @csrf_exempt
@@ -71,4 +85,3 @@ class UserProfile():
     def logoutUser(request):
         logout(request)
         return HttpResponse(status=200)
-
