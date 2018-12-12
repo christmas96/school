@@ -1,21 +1,36 @@
 from django.db import connection
 from django.shortcuts import render
-import jwt,json
+import json
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from school.models import *
 
 
 # Create your views here.
 
-
 def index(request):
     return HttpResponse("Hey it's school app")
 
+def check_role(request):
+    user_mail = request.GET['email']
+    user_obj = User.objects.filter(email=user_mail).exists()
 
-def my_custom_sql(user_id, start_date, end_date):
+    employee_role = Employee.objects.filter(user=user_obj).exists()
+    pupil_role = Pupil.objects.filter(user=user_obj).exists()
+
+    if employee_role:
+        return JsonResponse({'email':user_mail, 'permission':"admin"}, status=200)
+    elif pupil_role:
+        return JsonResponse({'email':user_mail, 'permission':"pupil"}, status=200)
+    else:
+        # user with specified email not found
+        return HttpResponse(status=404)
+
+
+def get_user_schedule(user_id, start_date, end_date):
     with connection.cursor() as cursor:
         cursor.execute("select school_subject.name, school_group.name, school_diary.mark, school_hometask.description, "
                        "school_lessondata.room, school_lessontime.begin, school_lessontime.end, school_lesson.date "
@@ -27,10 +42,16 @@ def my_custom_sql(user_id, start_date, end_date):
                        "inner join school_subject on school_subject.id = school_lessondata.subject_id "
                        "left join school_hometask on school_hometask.group_id = school_group.id "
                        "left join school_diary on school_diary.lesson_id = school_lesson.id "
-                       "WHERE school_pupil.id = 1 AND school_lesson.date between  '2014-01-01' AND '2019-12-31';")
-        row = cursor.fetchone()
+                       "WHERE school_pupil.id = " + user_id + " AND school_lesson.date between  '" + start_date + "' AND '" + end_date + "'"
+                       "ORDER BY school_lesson.date, school_lessontime.number")
+        a = cursor.fetchall()
+        res = []
+        for i in a:
+            temp = {"subject": i[0], "group": i[1], "grade": i[2], "homeTask": i[3], "room": i[4],
+                    "lesson_begin:": i[5], "lesson_end": i[6], "date": str(i[7]) }
+            res.append(temp)
 
-    return row
+    return res
 
 class UserProfile():
     @csrf_exempt
@@ -44,7 +65,7 @@ class UserProfile():
                                  last_name=last_name)
         user = authenticate(request, username=email, password=password)
         login(request, user)
-        return HttpResponse(status=200)
+        return JsonResponse({'email': email}, status=200)
 
 
     @csrf_exempt
@@ -61,14 +82,14 @@ class UserProfile():
 
     @csrf_exempt
     def get_user_schedule(request):
-        user_id = request.POST['userId']
-        start_date = request.POST['startDate']
-        end_date = request.POST['endDate']
-        my_custom_sql(user_id, start_date, end_date)
-        return JsonResponse({'email':'kek'}, status = 200)
+        user_id = request.GET['userId']
+        start_date = request.GET['startDate']
+        end_date = request.GET['endDate']
+        result = get_user_schedule(user_id, start_date, end_date)
+        return JsonResponse(result, status = 200, safe=False)
+        #return JsonResponse("Test! fix me please", status = 200, safe=False)
 
     @csrf_exempt
     def logoutUser(request):
         logout(request)
         return HttpResponse(status=200)
-
