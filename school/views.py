@@ -45,8 +45,13 @@ def get_user_schedule(user_id, start_date, end_date):
                        "WHERE school_pupil.id = " + user_id + " AND school_lesson.date between  '" + start_date + "' AND '" + end_date + "'"
                        "ORDER BY school_lesson.date, school_lessontime.number")
         a = cursor.fetchall()
+        res = []
+        for i in a:
+            temp = {"subject": i[0], "group": i[1], "grade": i[2], "homeTask": i[3], "room": i[4],
+                    "lesson_begin:": i[5], "lesson_end": i[6], "date": str(i[7]) }
+            res.append(temp)
 
-    return a
+    return res
 
 class UserProfile():
     @csrf_exempt
@@ -81,8 +86,8 @@ class UserProfile():
         start_date = request.GET['startDate']
         end_date = request.GET['endDate']
         result = get_user_schedule(user_id, start_date, end_date)
-        #return JsonResponse(result, status = 200)
-        return JsonResponse("Test! fix me please", status = 200, safe=False)
+        return JsonResponse(result, status = 200, safe=False)
+        #return JsonResponse("Test! fix me please", status = 200, safe=False)
 
     @csrf_exempt
     def logoutUser(request):
