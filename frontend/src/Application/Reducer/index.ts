@@ -1,2 +1,2 @@
+export * from 'Service/CreateReducer';
 export * from './Reducer';
-export * from './CreateReducer';

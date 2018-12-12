@@ -1,19 +1,19 @@
 import { createReducer } from 'Service/CreateReducer';
 
 const initialState = {};
-const LOGIN = 'login';
+const GET_CALENDAR = 'getCalendar';
 
-const login = payload => ({
+const getCalendar = payload => ({
   payload,
-  type: LOGIN,
+  type: GET_CALENDAR,
 });
 
 const reducers = {
-  [LOGIN]: state => state,
+  [GET_CALENDAR]: state => state,
 };
 
 export const actions = {
-  login
+  getCalendar
 };
 
 export const reducer = createReducer(reducers, initialState);

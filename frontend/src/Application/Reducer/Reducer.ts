@@ -1,6 +1,4 @@
 import { combineReducers } from 'redux';
-// import visibilityFilter from "./visibilityFilter";
-// import todos from "./todos";
-import { reducers as screens } from 'Screen'
+import { reducers } from 'Screen';
 
-export const reducer = combineReducers({ ...screens });
+export const reducer = combineReducers({ ...reducers });

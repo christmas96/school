@@ -5,22 +5,12 @@ const configBase = require('./webpack.config.base.js');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const configDev = {
-  mode: process.env.NODE_ENV,
   devtool: 'source-map',
 
   output: {
     chunkFilename: '[name].js',
     filename: '[name].js',
   },
-
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      },
-    }),
-    // new BundleAnalyzerPlugin({ analyzerPort: 8890 }),
-  ],
 
   devServer: {
     contentBase: './www/',
